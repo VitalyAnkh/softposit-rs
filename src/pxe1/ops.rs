@@ -1,8 +1,11 @@
 use super::PxE1;
-use crate::WithSign;
+use crate::{SizeGate, WithSign};
 use core::{mem, ops};
 
-impl<const N: u32> ops::Neg for PxE1<{ N }> {
+impl<const N: u32> ops::Neg for PxE1<{ N }>
+where
+    Self: SizeGate,
+{
     type Output = Self;
     #[inline]
     fn neg(self) -> Self {
@@ -10,35 +13,50 @@ impl<const N: u32> ops::Neg for PxE1<{ N }> {
     }
 }
 
-impl<const N: u32> ops::AddAssign for PxE1<{ N }> {
+impl<const N: u32> ops::AddAssign for PxE1<{ N }>
+where
+    Self: SizeGate,
+{
     #[inline]
     fn add_assign(&mut self, other: Self) {
         *self = *self + other
     }
 }
 
-impl<const N: u32> ops::SubAssign for PxE1<{ N }> {
+impl<const N: u32> ops::SubAssign for PxE1<{ N }>
+where
+    Self: SizeGate,
+{
     #[inline]
     fn sub_assign(&mut self, other: Self) {
         *self = *self - other
     }
 }
 
-impl<const N: u32> ops::MulAssign for PxE1<{ N }> {
+impl<const N: u32> ops::MulAssign for PxE1<{ N }>
+where
+    Self: SizeGate,
+{
     #[inline]
     fn mul_assign(&mut self, other: Self) {
         *self = *self * other
     }
 }
 
-impl<const N: u32> ops::DivAssign for PxE1<{ N }> {
+impl<const N: u32> ops::DivAssign for PxE1<{ N }>
+where
+    Self: SizeGate,
+{
     #[inline]
     fn div_assign(&mut self, other: Self) {
         *self = *self / other
     }
 }
 
-impl<const N: u32> ops::Add for PxE1<{ N }> {
+impl<const N: u32> ops::Add for PxE1<{ N }>
+where
+    Self: SizeGate,
+{
     type Output = Self;
     #[inline]
     fn add(self, other: Self) -> Self {
@@ -62,7 +80,10 @@ impl<const N: u32> ops::Add for PxE1<{ N }> {
     }
 }
 
-impl<const N: u32> ops::Sub for PxE1<{ N }> {
+impl<const N: u32> ops::Sub for PxE1<{ N }>
+where
+    Self: SizeGate,
+{
     type Output = Self;
     #[inline]
     fn sub(self, other: Self) -> Self {
@@ -86,7 +107,10 @@ impl<const N: u32> ops::Sub for PxE1<{ N }> {
     }
 }
 
-impl<const N: u32> PxE1<{ N }> {
+impl<const N: u32> PxE1<{ N }>
+where
+    Self: SizeGate,
+{
     #[inline]
     fn add_mags(mut ui_a: u32, mut ui_b: u32) -> Self {
         let sign = Self::sign_ui(ui_a);
@@ -307,7 +331,10 @@ impl<const N: u32> PxE1<{ N }> {
     }
 }
 
-impl<const N: u32> ops::Mul for PxE1<{ N }> {
+impl<const N: u32> ops::Mul for PxE1<{ N }>
+where
+    Self: SizeGate,
+{
     type Output = Self;
     #[inline]
     fn mul(self, other: Self) -> Self {
@@ -413,7 +440,10 @@ impl<const N: u32> ops::Mul for PxE1<{ N }> {
     }
 }
 
-impl<const N: u32> ops::Div for PxE1<{ N }> {
+impl<const N: u32> ops::Div for PxE1<{ N }>
+where
+    Self: SizeGate,
+{
     type Output = Self;
     #[inline]
     fn div(self, other: Self) -> Self {

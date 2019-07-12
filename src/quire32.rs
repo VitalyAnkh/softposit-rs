@@ -1,6 +1,6 @@
-#[cfg(feature = "nightly")]
-use crate::PxE2;
 use crate::P32E2;
+#[cfg(feature = "nightly")]
+use crate::{PxE2, SizeGate};
 use core::mem;
 
 mod convert;
@@ -129,7 +129,11 @@ impl crate::Quire<P32E2> for Q32E2 {
 }
 
 #[cfg(feature = "nightly")]
-impl<const N: u32> crate::Quire<PxE2<{ N }>> for Q32E2 {
+impl<const N: u32> crate::Quire<PxE2<{ N }>> for Q32E2
+where
+    PxE2<{ N }>: SizeGate,
+{
+    N }>: SizeGate {
     type Bits = [u64; 8];
     fn init() -> Self {
         Self::init()

@@ -1,16 +1,24 @@
 use super::PxE1;
-use crate::WithSign;
+use crate::{SizeGate, WithSign};
 use core::convert::From;
 use core::f64;
 
-impl<const N: u32> From<PxE1<{ N }>> for f32 {
+impl<const N: u32> From<PxE1<{ N }>> for f32
+where
+    PxE1<{ N }>: SizeGate,
+{
+    N }>:SizeGate {
     #[inline]
     fn from(a: PxE1<{ N }>) -> Self {
         f64::from(a) as f32
     }
 }
 
-impl<const N: u32> From<PxE1<{ N }>> for f64 {
+impl<const N: u32> From<PxE1<{ N }>> for f64
+where
+    PxE1<{ N }>: SizeGate,
+{
+    N }>:SizeGate {
     #[inline]
     fn from(p_a: PxE1<{ N }>) -> Self {
         let mut ui_a = p_a.to_bits();
@@ -34,7 +42,10 @@ impl<const N: u32> From<PxE1<{ N }>> for f64 {
     }
 }
 
-impl<const N: u32> From<f64> for PxE1<{ N }> {
+impl<const N: u32> From<f64> for PxE1<{ N }>
+where
+    Self: SizeGate,
+{
     #[allow(clippy::cognitive_complexity)]
     fn from(mut float: f64) -> Self {
         let mut reg: u32;
@@ -201,7 +212,11 @@ impl<const N: u32> From<f64> for PxE1<{ N }> {
     }
 }
 
-impl<const N: u32> From<PxE1<{ N }>> for i32 {
+impl<const N: u32> From<PxE1<{ N }>> for i32
+where
+    PxE1<{ N }>: SizeGate,
+{
+    N }>:SizeGate {
     #[inline]
     fn from(p_a: PxE1<{ N }>) -> Self {
         //NaR
@@ -222,7 +237,11 @@ impl<const N: u32> From<PxE1<{ N }>> for i32 {
     }
 }
 
-impl<const N: u32> From<PxE1<{ N }>> for u32 {
+impl<const N: u32> From<PxE1<{ N }>> for u32
+where
+    PxE1<{ N }>: SizeGate,
+{
+    N }>:SizeGate {
     #[inline]
     fn from(p_a: PxE1<{ N }>) -> Self {
         let ui_a = p_a.to_bits();
@@ -285,7 +304,11 @@ fn convert_px1bits_to_u32(mut ui_a: u32) -> u32 {
     }
 }
 
-impl<const N: u32> From<PxE1<{ N }>> for i64 {
+impl<const N: u32> From<PxE1<{ N }>> for i64
+where
+    PxE1<{ N }>: SizeGate,
+{
+    N }>:SizeGate {
     #[inline]
     fn from(p_a: PxE1<{ N }>) -> Self {
         //NaR
@@ -307,7 +330,11 @@ impl<const N: u32> From<PxE1<{ N }>> for i64 {
     }
 }
 
-impl<const N: u32> From<PxE1<{ N }>> for u64 {
+impl<const N: u32> From<PxE1<{ N }>> for u64
+where
+    PxE1<{ N }>: SizeGate,
+{
+    N }>:SizeGate {
     #[inline]
     fn from(p_a: PxE1<{ N }>) -> Self {
         let ui_a = p_a.to_bits();
@@ -366,7 +393,10 @@ fn convert_px1bits_to_u64(mut ui_a: u32) -> u64 {
     }
 }
 
-fn convert_u64_to_px1bits<const N: u32>(a: u64) -> u32 {
+fn convert_u64_to_px1bits<const N: u32>(a: u64) -> u32
+where
+    PxE1<{ N }>: SizeGate,
+{
     let mut log2 = 63_i8; //60;//length of bit (e.g. 576460752303423488 = 2^59) in int (64 but because we have only 64 bits, so one bit off to accommodate that fact)
     let mut mask = 0x_8000_0000_0000_0000_u64;
     if a < 0x2 {
@@ -419,7 +449,10 @@ fn convert_u64_to_px1bits<const N: u32>(a: u64) -> u32 {
     }
 }
 
-impl<const N: u32> From<u64> for PxE1<{ N }> {
+impl<const N: u32> From<u64> for PxE1<{ N }>
+where
+    Self: SizeGate,
+{
     #[inline]
     fn from(a: u64) -> Self {
         let ui_a = if a == 0x_8000_0000_0000_0000 {

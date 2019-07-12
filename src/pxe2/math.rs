@@ -1,7 +1,10 @@
 use super::PxE2;
-use crate::{MulAddType, WithSign};
+use crate::{MulAddType, SizeGate, WithSign};
 
-impl<const N: u32> PxE2<{ N }> {
+impl<const N: u32> PxE2<{ N }>
+where
+    Self: SizeGate,
+{
     #[inline]
     pub fn mul_add(self, b: Self, c: Self) -> Self {
         let ui_a = self.to_bits();

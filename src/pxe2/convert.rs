@@ -1,16 +1,24 @@
 use super::PxE2;
-use crate::WithSign;
+use crate::{SizeGate, WithSign};
 use core::convert::From;
 use core::f64;
 
-impl<const N: u32> From<PxE2<{ N }>> for f32 {
+impl<const N: u32> From<PxE2<{ N }>> for f32
+where
+    PxE2<{ N }>: SizeGate,
+{
+    N }>: SizeGate {
     #[inline]
     fn from(a: PxE2<{ N }>) -> Self {
         f64::from(a) as f32
     }
 }
 
-impl<const N: u32> From<PxE2<{ N }>> for f64 {
+impl<const N: u32> From<PxE2<{ N }>> for f64
+where
+    PxE2<{ N }>: SizeGate,
+{
+    N }>: SizeGate {
     #[inline]
     fn from(p_a: PxE2<{ N }>) -> Self {
         let mut ui_a = p_a.to_bits();
@@ -34,7 +42,10 @@ impl<const N: u32> From<PxE2<{ N }>> for f64 {
     }
 }
 
-impl<const N: u32> From<f64> for PxE2<{ N }> {
+impl<const N: u32> From<f64> for PxE2<{ N }>
+where
+    Self: SizeGate,
+{
     #[allow(clippy::cognitive_complexity)]
     fn from(mut float: f64) -> Self {
         let mut reg: u32;
@@ -221,7 +232,10 @@ impl<const N: u32> From<f64> for PxE2<{ N }> {
     }
 }
 
-impl<const N: u32> From<i32> for PxE2<{ N }> {
+impl<const N: u32> From<i32> for PxE2<{ N }>
+where
+    Self: SizeGate,
+{
     #[inline]
     fn from(mut i_a: i32) -> Self {
         if i_a < -2_147_483_135 {
@@ -251,7 +265,10 @@ impl<const N: u32> From<i32> for PxE2<{ N }> {
     }
 }
 
-impl<const N: u32> From<u32> for PxE2<{ N }> {
+impl<const N: u32> From<u32> for PxE2<{ N }>
+where
+    Self: SizeGate,
+{
     #[inline]
     fn from(a: u32) -> Self {
         let ui_a = if (N == 2) && (a > 0) {
@@ -270,7 +287,10 @@ impl<const N: u32> From<u32> for PxE2<{ N }> {
     }
 }
 
-fn convert_u32_to_px2bits<const N: u32>(a: u32) -> u32 {
+fn convert_u32_to_px2bits<const N: u32>(a: u32) -> u32
+where
+    PxE2<{ N }>: SizeGate,
+{
     let mut log2 = 31_i8; //length of bit (e.g. 4294966271) in int (32 but because we have only 32 bits, so one bit off to accomdate that fact)
     let mut mask = 0x_8000_0000_u32;
     if a < 0x2 {
@@ -321,7 +341,10 @@ fn convert_u32_to_px2bits<const N: u32>(a: u32) -> u32 {
     }
 }
 
-impl<const N: u32> From<i64> for PxE2<{ N }> {
+impl<const N: u32> From<i64> for PxE2<{ N }>
+where
+    Self: SizeGate,
+{
     #[inline]
     fn from(mut i_a: i64) -> Self {
         let sign = i_a.is_negative();
@@ -345,7 +368,10 @@ impl<const N: u32> From<i64> for PxE2<{ N }> {
     }
 }
 
-impl<const N: u32> From<u64> for PxE2<{ N }> {
+impl<const N: u32> From<u64> for PxE2<{ N }>
+where
+    Self: SizeGate,
+{
     #[inline]
     fn from(a: u64) -> Self {
         let ui_a = if (N == 2) && (a > 0) {
@@ -364,7 +390,10 @@ impl<const N: u32> From<u64> for PxE2<{ N }> {
     }
 }
 
-fn convert_u64_to_px2bits<const N: u32>(a: u64) -> u32 {
+fn convert_u64_to_px2bits<const N: u32>(a: u64) -> u32
+where
+    PxE2<{ N }>: SizeGate,
+{
     let mut log2 = 63_i8; //length of bit (e.g. 18445618173802708991) in int (64 but because we have only 64 bits, so one bit off to accommodate that fact)
     let mut mask = 0x_8000_0000_0000_0000_u64;
     if a < 0x2 {
@@ -424,28 +453,44 @@ fn convert_u64_to_px2bits<const N: u32>(a: u64) -> u32 {
 }
 
 use crate::P32E2;
-impl<const N: u32> From<PxE2<{ N }>> for i32 {
+impl<const N: u32> From<PxE2<{ N }>> for i32
+where
+    PxE2<{ N }>: SizeGate,
+{
+    N }>: SizeGate {
     #[inline]
     fn from(p_a: PxE2<{ N }>) -> Self {
         Self::from(P32E2::from_bits(p_a.to_bits()))
     }
 }
 
-impl<const N: u32> From<PxE2<{ N }>> for u32 {
+impl<const N: u32> From<PxE2<{ N }>> for u32
+where
+    PxE2<{ N }>: SizeGate,
+{
+    N }>: SizeGate {
     #[inline]
     fn from(p_a: PxE2<{ N }>) -> Self {
         Self::from(P32E2::from_bits(p_a.to_bits()))
     }
 }
 
-impl<const N: u32> From<PxE2<{ N }>> for u64 {
+impl<const N: u32> From<PxE2<{ N }>> for u64
+where
+    PxE2<{ N }>: SizeGate,
+{
+    N }>: SizeGate {
     #[inline]
     fn from(p_a: PxE2<{ N }>) -> Self {
         Self::from(P32E2::from_bits(p_a.to_bits()))
     }
 }
 
-impl<const N: u32> From<PxE2<{ N }>> for i64 {
+impl<const N: u32> From<PxE2<{ N }>> for i64
+where
+    PxE2<{ N }>: SizeGate,
+{
+    N }>: SizeGate {
     #[inline]
     fn from(p_a: PxE2<{ N }>) -> Self {
         Self::from(P32E2::from_bits(p_a.to_bits()))

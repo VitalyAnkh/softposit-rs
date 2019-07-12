@@ -1,8 +1,8 @@
 use super::Q32E2;
-#[cfg(feature = "nightly")]
-use crate::PxE2;
 use crate::WithSign;
 use crate::P32E2;
+#[cfg(feature = "nightly")]
+use crate::{PxE2, SizeGate};
 use core::convert::From;
 
 impl From<P32E2> for Q32E2 {
@@ -15,7 +15,11 @@ impl From<P32E2> for Q32E2 {
 }
 
 #[cfg(feature = "nightly")]
-impl<const N: u32> From<PxE2<{ N }>> for Q32E2 {
+impl<const N: u32> From<PxE2<{ N }>> for Q32E2
+where
+    PxE2<{ N }>: SizeGate,
+{
+    N }>: SizeGate {
     #[inline]
     fn from(a: PxE2<{ N }>) -> Self {
         let mut q = Self::ZERO;
@@ -148,7 +152,10 @@ impl From<&Q32E2> for P32E2 {
 }
 
 #[cfg(feature = "nightly")]
-impl<const N: u32> From<Q32E2> for PxE2<{ N }> {
+impl<const N: u32> From<Q32E2> for PxE2<{ N }>
+where
+    Self: SizeGate,
+{
     #[inline]
     fn from(q_a: Q32E2) -> Self {
         (&q_a).into()
@@ -156,7 +163,10 @@ impl<const N: u32> From<Q32E2> for PxE2<{ N }> {
 }
 
 #[cfg(feature = "nightly")]
-impl<const N: u32> From<&Q32E2> for PxE2<{ N }> {
+impl<const N: u32> From<&Q32E2> for PxE2<{ N }>
+where
+    Self: SizeGate,
+{
     fn from(q_a: &Q32E2) -> Self {
         let mut bits_more = false;
         let mut frac64_a = 0_u64;

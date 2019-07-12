@@ -1,6 +1,6 @@
 use crate::WithSign;
 #[cfg(feature = "nightly")]
-use crate::{PxE1, PxE2};
+use crate::{PxE1, PxE2, SizeGate};
 use crate::{P16E1, P32E2, P8E0};
 use core::convert::From;
 
@@ -398,7 +398,10 @@ impl From<P32E2> for P8E0 {
 }
 
 #[cfg(feature = "nightly")]
-impl<const N: u32> From<P32E2> for PxE2<{ N }> {
+impl<const N: u32> From<P32E2> for PxE2<{ N }>
+where
+    Self: SizeGate,
+{
     #[inline]
     fn from(p_a: P32E2) -> Self {
         let mut ui_a = p_a.to_bits();
@@ -440,7 +443,10 @@ impl<const N: u32> From<P32E2> for PxE2<{ N }> {
 }
 
 #[cfg(feature = "nightly")]
-impl<const N: u32> From<P16E1> for PxE2<{ N }> {
+impl<const N: u32> From<P16E1> for PxE2<{ N }>
+where
+    Self: SizeGate,
+{
     #[inline]
     fn from(p_a: P16E1) -> Self {
         let mut ui_a = p_a.to_bits();
@@ -514,7 +520,10 @@ impl<const N: u32> From<P16E1> for PxE2<{ N }> {
 }
 
 #[cfg(feature = "nightly")]
-impl<const N: u32> From<P32E2> for PxE1<{ N }> {
+impl<const N: u32> From<P32E2> for PxE1<{ N }>
+where
+    Self: SizeGate,
+{
     #[inline]
     fn from(p_a: P32E2) -> Self {
         let mut ui_a = p_a.to_bits();
@@ -590,7 +599,10 @@ impl<const N: u32> From<P32E2> for PxE1<{ N }> {
 }
 
 #[cfg(feature = "nightly")]
-impl<const N: u32> From<P8E0> for PxE1<{ N }> {
+impl<const N: u32> From<P8E0> for PxE1<{ N }>
+where
+    Self: SizeGate,
+{
     #[inline]
     fn from(p_a: P8E0) -> Self {
         let mut ui_a = p_a.to_bits();
@@ -665,7 +677,11 @@ impl<const N: u32> From<P8E0> for PxE1<{ N }> {
 }
 
 #[cfg(feature = "nightly")]
-impl<const N: u32> From<P8E0> for PxE2<{ N }> {
+impl<const N: u32> From<P8E0> for PxE2<{ N }>
+where
+    PxE2<{ N }>: SizeGate,
+{
+    N }>: SizeGate {
     #[inline]
     fn from(p_a: P8E0) -> Self {
         let mut ui_a = p_a.to_bits();
@@ -734,7 +750,10 @@ impl<const N: u32> From<P8E0> for PxE2<{ N }> {
 }
 
 #[cfg(feature = "nightly")]
-impl<const N: u32> From<P16E1> for PxE1<{ N }> {
+impl<const N: u32> From<P16E1> for PxE1<{ N }>
+where
+    Self: SizeGate,
+{
     fn from(p_a: P16E1) -> Self {
         let mut ui_a = (p_a.to_bits() as u32) << 16;
 
@@ -791,7 +810,12 @@ where
 }*/
 
 #[cfg(feature = "nightly")]
-impl<const M: u32, const N: u32> From<PxE2<{ M }>> for PxE1<{ N }> {
+impl<const M: u32, const N: u32> From<PxE2<{ M }>> for PxE1<{ N }>
+where
+    Self: SizeGate,
+    PxE2<{ M }>: SizeGate,
+{
+    M }>: SizeGate {
     #[inline]
     fn from(p_a: PxE2<{ M }>) -> Self {
         let mut ui_a = p_a.to_bits();
@@ -867,7 +891,12 @@ impl<const M: u32, const N: u32> From<PxE2<{ M }>> for PxE1<{ N }> {
 }
 
 #[cfg(feature = "nightly")]
-impl<const M: u32, const N: u32> From<PxE1<{ M }>> for PxE2<{ N }> {
+impl<const M: u32, const N: u32> From<PxE1<{ M }>> for PxE2<{ N }>
+where
+    PxE1<{ M }>: SizeGate,
+    Self: SizeGate,
+{
+    M }>:SizeGate, Self: SizeGate {
     #[inline]
     fn from(p_a: PxE1<{ M }>) -> Self {
         let mut ui_a = p_a.to_bits();
@@ -937,7 +966,11 @@ impl<const M: u32, const N: u32> From<PxE1<{ M }>> for PxE2<{ N }> {
 }
 
 #[cfg(feature = "nightly")]
-impl<const N: u32> From<PxE2<{ N }>> for P32E2 {
+impl<const N: u32> From<PxE2<{ N }>> for P32E2
+where
+    PxE2<{ N }>: SizeGate,
+{
+    N }>: SizeGate {
     #[inline]
     fn from(p_a: PxE2<{ N }>) -> Self {
         Self::from_bits(p_a.to_bits())
@@ -945,7 +978,11 @@ impl<const N: u32> From<PxE2<{ N }>> for P32E2 {
 }
 
 #[cfg(feature = "nightly")]
-impl<const N: u32> From<PxE2<{ N }>> for P16E1 {
+impl<const N: u32> From<PxE2<{ N }>> for P16E1
+where
+    PxE2<{ N }>: SizeGate,
+{
+    N }>: SizeGate {
     #[inline]
     fn from(p_a: PxE2<{ N }>) -> Self {
         Self::from(P32E2::from_bits(p_a.to_bits()))
@@ -953,7 +990,11 @@ impl<const N: u32> From<PxE2<{ N }>> for P16E1 {
 }
 
 #[cfg(feature = "nightly")]
-impl<const N: u32> From<PxE2<{ N }>> for P8E0 {
+impl<const N: u32> From<PxE2<{ N }>> for P8E0
+where
+    PxE2<{ N }>: SizeGate,
+{
+    N }>: SizeGate {
     #[inline]
     fn from(p_a: PxE2<{ N }>) -> Self {
         Self::from(P32E2::from_bits(p_a.to_bits()))
@@ -961,7 +1002,11 @@ impl<const N: u32> From<PxE2<{ N }>> for P8E0 {
 }
 
 #[cfg(feature = "nightly")]
-impl<const N: u32> From<PxE1<{ N }>> for P32E2 {
+impl<const N: u32> From<PxE1<{ N }>> for P32E2
+where
+    PxE1<{ N }>: SizeGate,
+{
+    N }>:SizeGate {
     #[inline]
     fn from(p_a: PxE1<{ N }>) -> Self {
         let mut ui_a = p_a.to_bits();
@@ -969,7 +1014,7 @@ impl<const N: u32> From<PxE1<{ N }>> for P32E2 {
         if (ui_a == 0x_8000_0000) || (ui_a == 0) {
             return Self::from_bits(ui_a);
         }
-        let sign = PxE2::<{ N }>::sign_ui(ui_a);
+        let sign = PxE1::<{ N }>::sign_ui(ui_a);
         if sign {
             ui_a = ui_a.wrapping_neg();
         }
@@ -1009,7 +1054,11 @@ impl<const N: u32> From<PxE1<{ N }>> for P32E2 {
 }
 
 #[cfg(feature = "nightly")]
-impl<const N: u32> From<PxE1<{ N }>> for P16E1 {
+impl<const N: u32> From<PxE1<{ N }>> for P16E1
+where
+    PxE1<{ N }>: SizeGate,
+{
+    N }>:SizeGate {
     #[inline]
     fn from(p_a: PxE1<{ N }>) -> Self {
         let mut ui_a = p_a.to_bits();
@@ -1043,7 +1092,11 @@ impl<const N: u32> From<PxE1<{ N }>> for P16E1 {
 }
 
 #[cfg(feature = "nightly")]
-impl<const N: u32> From<PxE1<{ N }>> for P8E0 {
+impl<const N: u32> From<PxE1<{ N }>> for P8E0
+where
+    PxE1<{ N }>: SizeGate,
+{
+    N }>:SizeGate {
     #[inline]
     fn from(p_a: PxE1<{ N }>) -> Self {
         let mut ui_a = p_a.to_bits();

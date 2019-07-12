@@ -1,5 +1,7 @@
 use core::mem;
 
+use crate::SizeGate;
+
 mod convert;
 mod math;
 mod ops;
@@ -7,7 +9,21 @@ mod ops;
 #[derive(Clone, Copy, Default, PartialEq, Eq, PartialOrd, Ord, Hash)]
 pub struct PxE2<const N: u32>(i32);
 
-impl<const N: u32> PxE2<{ N }> {
+macro_rules! size {
+    ($($i:literal),*) => {$(
+        impl SizeGate for PxE2<{ $i }> { }
+    )*}
+}
+
+size!(
+    2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27,
+    28, 29, 30, 31, 32
+);
+
+impl<const N: u32> PxE2<{ N }>
+where
+    Self: SizeGate,
+{
     pub const SIZE: usize = N as usize;
     pub const ES: usize = 2;
     pub const USEED: usize = 16;
@@ -43,7 +59,10 @@ impl<const N: u32> PxE2<{ N }> {
     }
 }
 
-impl<const N: u32> PxE2<{ N }> {
+impl<const N: u32> PxE2<{ N }>
+where
+    Self: SizeGate,
+{
     pub(crate) const MASK: u32 = (((-0x_8000_0000_i32) >> (N - 1)) as u32);
     pub const SIGN_MASK: u32 = 0x_8000_0000;
     pub const REGIME_SIGN_MASK: u32 = 0x_4000_0000;

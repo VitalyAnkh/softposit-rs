@@ -1137,7 +1137,9 @@ macro_rules! quire_add_sub {
 macro_rules! quire_add_sub_array_x {
     ($posit:ty, $quire:ty, $($i:literal),*) => {$(
         #[cfg(feature = "nightly")]
-        impl<const N: u32> ops::AddAssign<($posit, [$posit; $i])> for $quire {
+        impl<const N: u32> ops::AddAssign<($posit, [$posit; $i])> for $quire
+        where $posit: crate::SizeGate
+        {
             #[inline]
             fn add_assign(&mut self, rhs: ($posit, [$posit; $i])) {
                 for p in &rhs.1 {
@@ -1147,7 +1149,9 @@ macro_rules! quire_add_sub_array_x {
         }
 
         #[cfg(feature = "nightly")]
-        impl<const N: u32> ops::SubAssign<($posit, [$posit; $i])> for $quire {
+        impl<const N: u32> ops::SubAssign<($posit, [$posit; $i])> for $quire
+        where $posit: crate::SizeGate
+        {
             #[inline]
             fn sub_assign(&mut self, rhs: ($posit, [$posit; $i])) {
                 for p in &rhs.1 {
@@ -1162,7 +1166,10 @@ macro_rules! quire_add_sub_array_x {
 macro_rules! quire_add_sub_x {
     ($posit:ty, $quire:ty) => {
         #[cfg(feature = "nightly")]
-        impl<const N: u32> ops::AddAssign<($posit, $posit)> for $quire {
+        impl<const N: u32> ops::AddAssign<($posit, $posit)> for $quire
+        where
+            $posit: crate::SizeGate,
+        {
             #[inline]
             fn add_assign(&mut self, rhs: ($posit, $posit)) {
                 let ui_a = (rhs.0).to_bits();
@@ -1172,7 +1179,10 @@ macro_rules! quire_add_sub_x {
         }
 
         #[cfg(feature = "nightly")]
-        impl<const N: u32> ops::AddAssign<($posit, ($posit, $posit))> for $quire {
+        impl<const N: u32> ops::AddAssign<($posit, ($posit, $posit))> for $quire
+        where
+            $posit: crate::SizeGate,
+        {
             #[inline]
             fn add_assign(&mut self, rhs: ($posit, ($posit, $posit))) {
                 *self += (rhs.0, (rhs.1).0);
@@ -1181,7 +1191,10 @@ macro_rules! quire_add_sub_x {
         }
 
         #[cfg(feature = "nightly")]
-        impl<const N: u32> ops::AddAssign<($posit, ($posit, $posit, $posit))> for $quire {
+        impl<const N: u32> ops::AddAssign<($posit, ($posit, $posit, $posit))> for $quire
+        where
+            $posit: crate::SizeGate,
+        {
             #[inline]
             fn add_assign(&mut self, rhs: ($posit, ($posit, $posit, $posit))) {
                 *self += (rhs.0, (rhs.1).0);
@@ -1191,7 +1204,10 @@ macro_rules! quire_add_sub_x {
         }
 
         #[cfg(feature = "nightly")]
-        impl<const N: u32> ops::AddAssign<$posit> for $quire {
+        impl<const N: u32> ops::AddAssign<$posit> for $quire
+        where
+            $posit: crate::SizeGate,
+        {
             #[inline]
             fn add_assign(&mut self, rhs: $posit) {
                 let ui = rhs.to_bits();
@@ -1200,7 +1216,10 @@ macro_rules! quire_add_sub_x {
         }
 
         #[cfg(feature = "nightly")]
-        impl<const N: u32> ops::AddAssign<(($posit, $posit), ($posit, $posit))> for $quire {
+        impl<const N: u32> ops::AddAssign<(($posit, $posit), ($posit, $posit))> for $quire
+        where
+            $posit: crate::SizeGate,
+        {
             #[inline]
             fn add_assign(&mut self, rhs: (($posit, $posit), ($posit, $posit))) {
                 *self += ((rhs.0).0, (rhs.1).0);
@@ -1211,7 +1230,10 @@ macro_rules! quire_add_sub_x {
         }
 
         #[cfg(feature = "nightly")]
-        impl<const N: u32> ops::SubAssign<($posit, $posit)> for $quire {
+        impl<const N: u32> ops::SubAssign<($posit, $posit)> for $quire
+        where
+            $posit: crate::SizeGate,
+        {
             #[inline]
             fn sub_assign(&mut self, rhs: ($posit, $posit)) {
                 let ui_a = (rhs.0).to_bits();
@@ -1221,7 +1243,10 @@ macro_rules! quire_add_sub_x {
         }
 
         #[cfg(feature = "nightly")]
-        impl<const N: u32> ops::SubAssign<$posit> for $quire {
+        impl<const N: u32> ops::SubAssign<$posit> for $quire
+        where
+            $posit: crate::SizeGate,
+        {
             #[inline]
             fn sub_assign(&mut self, rhs: $posit) {
                 let ui = rhs.to_bits();
@@ -1230,7 +1255,10 @@ macro_rules! quire_add_sub_x {
         }
 
         #[cfg(feature = "nightly")]
-        impl<const N: u32> ops::SubAssign<($posit, ($posit, $posit))> for $quire {
+        impl<const N: u32> ops::SubAssign<($posit, ($posit, $posit))> for $quire
+        where
+            $posit: crate::SizeGate,
+        {
             #[inline]
             fn sub_assign(&mut self, rhs: ($posit, ($posit, $posit))) {
                 *self -= (rhs.0, (rhs.1).0);
@@ -1239,7 +1267,10 @@ macro_rules! quire_add_sub_x {
         }
 
         #[cfg(feature = "nightly")]
-        impl<const N: u32> ops::SubAssign<(($posit, $posit), ($posit, $posit))> for $quire {
+        impl<const N: u32> ops::SubAssign<(($posit, $posit), ($posit, $posit))> for $quire
+        where
+            $posit: crate::SizeGate,
+        {
             #[inline]
             fn sub_assign(&mut self, rhs: (($posit, $posit), ($posit, $posit))) {
                 *self -= ((rhs.0).0, (rhs.1).0);

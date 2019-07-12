@@ -29,6 +29,9 @@ pub use self::quire32::Q32E2;
 pub type Q32 = Q32E2;
 
 #[cfg(feature = "nightly")]
+pub trait SizeGate {}
+
+#[cfg(feature = "nightly")]
 pub mod pxe1;
 #[cfg(feature = "nightly")]
 pub use pxe1::PxE1;
